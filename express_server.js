@@ -17,15 +17,34 @@ let urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+let users = {
+  "Garo": {
+    id: "1",
+    email: "user1@example.com",
+    password: "blue"
+  },
+ "Gacia": {
+    id: "2",
+    email: "user2@example.com",
+    password: "green"
+  }
+}
+
 // Will basically generate a random number, round down, multiply by charset length, get approprate charset letter and return a string of 5 chars long.
 function generateRandomString() {
   let text = "";
   const charset = "abcdefghijklmnopqrstuvwxyz0123456789";
-    for( var i = 0; i < n5; i++ ) {
+    for( var i = 0; i < 5; i++ ) {
       text += charset.charAt(Math.floor(Math.random() * charset.length));
     }
   return text;
 }
+
+//Template Variables. CHECK THIS OUT TO SEE HOW I CAN CALL.
+let templateVars = {
+  urls: urlDatabase
+}
+
 
 // Express starts hosting the routrs HERE.
 app.get("/", function(req, res) {
@@ -36,7 +55,7 @@ app.get("/", function(req, res) {
 app.get('/urls', function(req,res){
   res.render('urls_index', {
     urls: urlDatabase,
-    username: req.cookies["username"]
+    username: users[req.cookies["user_id"]]
   });
 })
 
@@ -46,7 +65,6 @@ app.post('/urls', function(req,res){
   let short = generateRandomString()
   urlDatabase[short] = newURL;
   let path = `urls/${short}`
-  console.log(req.body);
   res.redirect(path);
 })
 
@@ -54,7 +72,7 @@ app.post('/urls', function(req,res){
 // Will ask input for long URL
 app.get('/urls/new', (req, res) => {
   res.render('urls_new', {
-    username: req.cookies['username']
+    username: users[req.cookies["user_id"]]
   })
 })
 
@@ -64,12 +82,21 @@ app.get('/u/:shortU', function (req,res){
   res.redirect(longU);
 })
 
+//Shows Registration Page
+app.get('/register', function(req,res){
+  res.render('register_page')
+})
+
+app.get('/login', function(req,res){
+  res.render('login_page')
+})
+
 //Shows long URL of given short URL
 app.get('/urls/:id', function(req,res){
   res.render('urls_show', {
     shortURL: req.params.id,
     urls: urlDatabase,
-    username: req.cookies['username']
+    username: users[req.cookies["user_id"]]
   })
 })
 
@@ -88,9 +115,23 @@ app.post('/urls/:id/delete', function(req, res){
 
 //Gets Username from input form and stores in request cookies header
 app.post('/login', function(req,res){
-  let user = req.body.username;
-  console.log(user);
-  res.cookie('username', user);
+  let userEmail = req.body.email;
+  let userPassword = req.body.password;
+
+  for ( let i in users) {
+    if (users[i].email === userEmail){
+      if (users[i].password === userPassword) {
+        res.cookie('user_id', users[i].id)
+      }
+      else {
+        res.statusCode = 403;
+        res.send("Wrong password")
+      }
+    }
+    else {
+      res.statusCode = 403;
+    }
+  }
   res.redirect('/urls');
 })
 
@@ -98,6 +139,35 @@ app.post('/login', function(req,res){
 app.post('/logout', function(req,res){
   res.clearCookie('username');
   res.redirect('/urls')
+})
+
+//Creates a new User object in users using the random ID as the key and putting email + pass combo in right place
+app.post('/register', function(req,res){
+  let newID = generateRandomString();
+
+//ERROR: Checks to see if any of the fields are left blank.
+  if (req.body.email === "" || req.body.password === ""){
+    res.statusCode = 400;
+    res.send("Please fill in form")
+    return
+  }
+
+  //ERROR: Checks to see if email already exists
+  for (let i in users) {
+    if (users[i].email === req.body.email){
+      res.statusCode = 400;
+      res.send("Email already exists");
+      return;
+    }
+  }
+    users[newID] = {};
+    users[newID].id = newID;
+    users[newID].email = req.body.email;
+    users[newID].password = req.body.password;
+    console.log(users);
+
+    // res.cookie('user_id', newID);
+    res.redirect('/urls')
 })
 
 

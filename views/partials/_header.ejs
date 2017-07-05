@@ -11,19 +11,14 @@
       <h2> TinyURL Generator </h2>
       </header>
 
-      <% if (username === undefined) { %>
-
-      Enter a new Username:
-      <form method="POST" action="/login">
-        <input type="text" name="username">
-        <input type="submit" name="Submit">
-
-      <% } else { %>
-
-      Current Username: <%= username %>
-      <form method="POST" action="/logout">
-        <button> Logout </button>
-      <% } %>
+      <nav>
+          <li> <a href='/urls'> Index Page </a></li>
+          <li> <a href='/urls/new'> Shorten New URL </a></li>
+          <li> <a href='/register'> Register </a></li>
+          <% if (username === undefined) { %>
+            <li> <a href='/login'> Login </a></li>
+          <% } %>
+      </nav>
 
   </body>
 </html>
