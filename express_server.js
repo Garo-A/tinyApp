@@ -21,7 +21,7 @@ let urlDatabase = {
 function generateRandomString() {
   let text = "";
   const charset = "abcdefghijklmnopqrstuvwxyz0123456789";
-    for( var i = 0; i < 5; i++ ) {
+    for( var i = 0; i < n5; i++ ) {
       text += charset.charAt(Math.floor(Math.random() * charset.length));
     }
   return text;
@@ -73,6 +73,7 @@ app.get('/urls/:id', function(req,res){
   })
 })
 
+//Shows individual URL page
 app.post('/urls/:id', function(req,res){
   let updatedURL = (req.body.updatedURL);
   urlDatabase[req.params.id] = updatedURL;
@@ -85,6 +86,7 @@ app.post('/urls/:id/delete', function(req, res){
   res.redirect('/urls')
 })
 
+//Gets Username from input form and stores in request cookies header
 app.post('/login', function(req,res){
   let user = req.body.username;
   console.log(user);
@@ -92,6 +94,7 @@ app.post('/login', function(req,res){
   res.redirect('/urls');
 })
 
+//Will logout user and reset uername cookie to underfined
 app.post('/logout', function(req,res){
   res.clearCookie('username');
   res.redirect('/urls')
