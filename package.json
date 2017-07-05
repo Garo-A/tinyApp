@@ -1,0 +1,19 @@
+{
+  "name": "testweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "ejs": "^2.5.6",
+    "express": "^4.15.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node express_server.js"
+  },
+  "keywords": [],
+  "author": "Garo Assilian",
+  "license": "ISC"
+}

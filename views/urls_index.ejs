@@ -1,0 +1,33 @@
+<!-- urls_index.js in view -->
+
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title> TinyApp! </title>
+  </head>
+
+
+  <body>
+
+    <header>
+      <% include partials/_header %>
+    </header>
+
+    <ul>
+        <% for (let urlkey in urls) { %>
+          <li> <%= urlkey %> : <%= urls[urlkey] %>
+            <form method="POST" action="urls/<%=urlkey%>/delete">
+              <button> Delete </button> <a href='/urls/<%=urlkey%>'> edit </a>
+            </form>
+          </li>
+        <% } %>
+    </ul>
+
+    <a href="urls/new" >Shorten URL! </a>
+
+
+  </body>
+
+</html>
