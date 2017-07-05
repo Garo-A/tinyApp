@@ -11,5 +11,19 @@
       <h2> TinyURL Generator </h2>
       </header>
 
+      <% if (username === undefined) { %>
+
+      Enter a new Username:
+      <form method="POST" action="/login">
+        <input type="text" name="username">
+        <input type="submit" name="Submit">
+
+      <% } else { %>
+
+      Current Username: <%= username %>
+      <form method="POST" action="/logout">
+        <button> Logout </button>
+      <% } %>
+
   </body>
 </html>

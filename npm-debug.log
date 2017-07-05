@@ -9,8 +9,8 @@
 6 silly lifecycle testweb@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle testweb@1.0.0~start: testweb@1.0.0
 8 verbose lifecycle testweb@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle testweb@1.0.0~start: PATH: /home/vagrant/.nvm/versions/node/v6.9.5/lib/node_modules/npm/bin/node-gyp-bin:/vagrant/TinyURL/node_modules/.bin:/home/vagrant/.nvm/versions/node/v6.9.5/bin:/home/vagrant/.rvm/gems/ruby-2.3.3/bin:/home/vagrant/.rvm/gems/ruby-2.3.3@global/bin:/home/vagrant/.rvm/rubies/ruby-2.3.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/.rvm/bin:/home/vagrant/.rvm/bin
-10 verbose lifecycle testweb@1.0.0~start: CWD: /vagrant/TinyURL
+9 verbose lifecycle testweb@1.0.0~start: PATH: /home/vagrant/.nvm/versions/node/v6.9.5/lib/node_modules/npm/bin/node-gyp-bin:/vagrant/tinyURL/node_modules/.bin:/home/vagrant/.nvm/versions/node/v6.9.5/bin:/home/vagrant/.rvm/gems/ruby-2.3.3/bin:/home/vagrant/.rvm/gems/ruby-2.3.3@global/bin:/home/vagrant/.rvm/rubies/ruby-2.3.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/.rvm/bin:/home/vagrant/.rvm/bin
+10 verbose lifecycle testweb@1.0.0~start: CWD: /vagrant/tinyURL
 11 silly lifecycle testweb@1.0.0~start: Args: [ '-c', 'node express_server.js' ]
 12 silly lifecycle testweb@1.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle testweb@1.0.0~start: Failed to exec start script
@@ -25,7 +25,7 @@
 14 verbose stack     at maybeClose (internal/child_process.js:877:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid testweb@1.0.0
-16 verbose cwd /vagrant/TinyURL
+16 verbose cwd /vagrant/tinyURL
 17 error Linux 4.4.0-21-generic
 18 error argv "/home/vagrant/.nvm/versions/node/v6.9.5/bin/node" "/home/vagrant/.nvm/versions/node/v6.9.5/bin/npm" "start"
 19 error node v6.9.5

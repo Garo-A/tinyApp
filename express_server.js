@@ -1,11 +1,13 @@
 const express = require ('express');
-const app = express();
 const bodyParser = require("body-parser");
+const cookieParser = require ('cookie-parser');
+const app = express();
 
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true})); //Using body parser
 app.set('view engine', 'ejs'); //Sets the view engine to render EJS files
+app.use(cookieParser())
 
 //Setting default port.
 const PORT = 8080;
@@ -34,6 +36,7 @@ app.get("/", function(req, res) {
 app.get('/urls', function(req,res){
   res.render('urls_index', {
     urls: urlDatabase,
+    username: req.cookies["username"]
   });
 })
 
@@ -50,7 +53,9 @@ app.post('/urls', function(req,res){
 
 // Will ask input for long URL
 app.get('/urls/new', (req, res) => {
-  res.render('urls_new')
+  res.render('urls_new', {
+    username: req.cookies['username']
+  })
 })
 
 //Responsible for taking short URL and redirecting to actual webpage
@@ -63,7 +68,8 @@ app.get('/u/:shortU', function (req,res){
 app.get('/urls/:id', function(req,res){
   res.render('urls_show', {
     shortURL: req.params.id,
-    urls: urlDatabase
+    urls: urlDatabase,
+    username: req.cookies['username']
   })
 })
 
@@ -73,9 +79,21 @@ app.post('/urls/:id', function(req,res){
   res.redirect('/urls');
 })
 
-//This ONLY executes when there's a POST request sent to this SPECIFIC path. You can't open up this page with a GET. It's only accessible through POST in HTML Form.
+//This ONLY executes when there's a POST request sent to this SPECIFIC path.
 app.post('/urls/:id/delete', function(req, res){
   delete urlDatabase[req.params.id];
+  res.redirect('/urls')
+})
+
+app.post('/login', function(req,res){
+  let user = req.body.username;
+  console.log(user);
+  res.cookie('username', user);
+  res.redirect('/urls');
+})
+
+app.post('/logout', function(req,res){
+  res.clearCookie('username');
   res.redirect('/urls')
 })
 
