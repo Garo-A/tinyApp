@@ -17,7 +17,16 @@
           <li> <a href='/register'> Register </a></li>
           <% if (username === undefined) { %>
             <li> <a href='/login'> Login </a></li>
+
+          <% } else { %>
+            <form method="POST" action="/logout">
+              <li><button> Logout </button></li>
+            </form>
+            <br>
+            Hello <%= username.email %>
           <% } %>
+
+
       </nav>
 
   </body>

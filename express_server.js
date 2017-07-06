@@ -18,12 +18,12 @@ let urlDatabase = {
 };
 
 let users = {
-  "Garo": {
+  "1": {
     id: "1",
     email: "user1@example.com",
     password: "blue"
   },
- "Gacia": {
+ "2": {
     id: "2",
     email: "user2@example.com",
     password: "green"
@@ -118,26 +118,28 @@ app.post('/login', function(req,res){
   let userEmail = req.body.email;
   let userPassword = req.body.password;
 
-  for ( let i in users) {
+  console.log(`Email: ${userEmail} Password: ${userPassword}`);
+
+  for (let i in users) {
     if (users[i].email === userEmail){
       if (users[i].password === userPassword) {
         res.cookie('user_id', users[i].id)
+        res.redirect('/urls');
+        }
+        else {
+          res.statusCode = 403;
+        }
       }
-      else {
-        res.statusCode = 403;
-        res.send("Wrong password")
-      }
-    }
     else {
       res.statusCode = 403;
     }
+    console.log([i]);
   }
-  res.redirect('/urls');
 })
 
 //Will logout user and reset uername cookie to underfined
 app.post('/logout', function(req,res){
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect('/urls')
 })
 
