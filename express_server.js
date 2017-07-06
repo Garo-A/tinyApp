@@ -1,6 +1,6 @@
 const express = require ('express');
 const bodyParser = require("body-parser");
-const cookieParser = require ('cookie-parser');
+const cookieSession = require ('cookie-session');
 const bcrypt = require ('bcrypt');
 const app = express();
 
@@ -8,7 +8,10 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true})); //Using body parser
 app.set('view engine', 'ejs'); //Sets the view engine to render EJS files
-app.use(cookieParser())
+app.use(cookieSession({
+  name: 'session',
+  keys: ["key1"]
+}))
 
 //Setting default port.
 const PORT = 8080;
@@ -31,12 +34,12 @@ let users = {
   "1": {
     id: 1,
     email: "user1@example.com",
-    password: "blue"
+    password: bcrypt.hashSync('blue', 10)
   },
  "2": {
     id: 2,
     email: "user2@example.com",
-    password: "green"
+    password: bcrypt.hashSync('green', 10)
   }
 }
 
@@ -69,14 +72,14 @@ app.get("/", function(req, res) {
 
 // Shows what's currently in the urlDatabase
 app.get('/urls', function(req,res){
-  if (req.cookies['user_id'] === undefined) {
+  if (req.session.user_id === undefined) {
     res.redirect("/login");
 
   } else {
-    let user = req.cookies['user_id'];
+    let user = req.session.user_id;
     res.render('urls_index', {
       urls: URLUser(user),
-      username: users[req.cookies["user_id"]]
+      username: users[req.session.user_id]
     });
   }
 })
@@ -88,7 +91,7 @@ app.post('/urls', function(req,res){
   urlDatabase[short] = {};
   urlDatabase[short].short = short;
   urlDatabase[short].long = newURL;
-  urlDatabase[short].userID = req.cookies['user_id'];
+  urlDatabase[short].userID = req.session.user_id;
 
   let path = `urls/${short}`
   res.redirect(path);
@@ -97,9 +100,9 @@ app.post('/urls', function(req,res){
 
 // Will ask input for long URL
 app.get('/urls/new', (req, res) => {
-  if (req.cookies['user_id'] !== undefined){
+  if (req.session.user_id !== undefined){
     res.render('urls_new', {
-      username: users[req.cookies["user_id"]]
+      username: users[req.session.user_id]
     })
   } else {
     res.redirect('/login');
@@ -109,9 +112,6 @@ app.get('/urls/new', (req, res) => {
 //Responsible for taking short URL and redirecting to actual webpage
 app.get('/u/:shortU', function (req,res){
   let longU = urlDatabase[req.params.shortU].long;
-  console.log(urlDatabase)
-  console.log(req.params.shortU);
-  console.log(longU)
   res.redirect(longU);
 })
 
@@ -129,7 +129,7 @@ app.get('/urls/:id', function(req,res){
   res.render('urls_show', {
     shortURL: req.params.id,
     urls: urlDatabase,
-    username: users[req.cookies["user_id"]]
+    username: users[req.session.user_id]
   })
 })
 
@@ -154,7 +154,7 @@ app.post('/login', function(req,res){
   for (let i in users) {
     if (users[i].email === userEmail){
       if (bcrypt.compareSync(userPassword, users[i].password)) {
-        res.cookie('user_id', users[i].id)
+        req.session.user_id = users[i].id
         res.redirect('/urls');
         }
         else {
