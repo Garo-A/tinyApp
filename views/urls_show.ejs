@@ -13,10 +13,12 @@
     </header>
 
     <p>
-      <li> Full URL = <%= urls[shortURL] %> </li>
-      <li> Short URL = <%= shortURL %> </li>
+      <li> Full URL = <%= urls[shortURL].long %> </li>
+      <li> Short URL = <%= urls[shortURL].short %> </li>
+      <li> User = <%= urls[shortURL].userID %>
     </p>
 
+    <% if (username.id === urls[shortURL].userID) { %>
 
     <form method="POST" action="/urls/<%=shortURL%>">
       <br>
@@ -24,6 +26,7 @@
       <input type="text" name="updatedURL">
       <input type="submit" value="Update">
       <br>
+      <% } %>
 
    </body>
 </html>

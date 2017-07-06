@@ -17,7 +17,8 @@
 
     <ul>
         <% for (let urlkey in urls) { %>
-          <li> <%= urlkey %> : <%= urls[urlkey] %>
+          <li> <%= urlkey %> : <%= urls[urlkey].long %>
+
             <form method="POST" action="urls/<%=urlkey%>/delete">
               <button> Delete </button> <a href='/urls/<%=urlkey%>'> edit </a>
             </form>

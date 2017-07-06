@@ -1,6 +1,7 @@
 const express = require ('express');
 const bodyParser = require("body-parser");
 const cookieParser = require ('cookie-parser');
+const bcrypt = require ('bcrypt');
 const app = express();
 
 
@@ -13,18 +14,27 @@ app.use(cookieParser())
 const PORT = 8080;
 
 let urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    short: 'b2xVn2',
+    long: "http://www.lighthouselabs.ca",
+    userID: 1
+  },
+  "9sm5xK": {
+    short: "9sm5xK",
+    long: "http://www.google.com",
+    userID: 2
+  }
 };
+
 
 let users = {
   "1": {
-    id: "1",
+    id: 1,
     email: "user1@example.com",
     password: "blue"
   },
  "2": {
-    id: "2",
+    id: 2,
     email: "user2@example.com",
     password: "green"
   }
@@ -41,8 +51,14 @@ function generateRandomString() {
 }
 
 //Template Variables. CHECK THIS OUT TO SEE HOW I CAN CALL.
-let templateVars = {
-  urls: urlDatabase
+function URLUser(id) {
+  let all = {};
+  for (let url in urlDatabase){
+    if (id == urlDatabase[url].userID) {
+      all[url] = urlDatabase[url];
+    }
+  }
+  return all;
 }
 
 
@@ -53,17 +69,27 @@ app.get("/", function(req, res) {
 
 // Shows what's currently in the urlDatabase
 app.get('/urls', function(req,res){
-  res.render('urls_index', {
-    urls: urlDatabase,
-    username: users[req.cookies["user_id"]]
-  });
+  if (req.cookies['user_id'] === undefined) {
+    res.redirect("/login");
+
+  } else {
+    let user = req.cookies['user_id'];
+    res.render('urls_index', {
+      urls: URLUser(user),
+      username: users[req.cookies["user_id"]]
+    });
+  }
 })
 
 //Takes whatver user put into urls/new page and loads into urlDatabase. Will then redirect to that short url's page
 app.post('/urls', function(req,res){
   let newURL = (req.body.longURL);
   let short = generateRandomString()
-  urlDatabase[short] = newURL;
+  urlDatabase[short] = {};
+  urlDatabase[short].short = short;
+  urlDatabase[short].long = newURL;
+  urlDatabase[short].userID = req.cookies['user_id'];
+
   let path = `urls/${short}`
   res.redirect(path);
 })
@@ -71,14 +97,21 @@ app.post('/urls', function(req,res){
 
 // Will ask input for long URL
 app.get('/urls/new', (req, res) => {
-  res.render('urls_new', {
-    username: users[req.cookies["user_id"]]
-  })
+  if (req.cookies['user_id'] !== undefined){
+    res.render('urls_new', {
+      username: users[req.cookies["user_id"]]
+    })
+  } else {
+    res.redirect('/login');
+  }
 })
 
 //Responsible for taking short URL and redirecting to actual webpage
 app.get('/u/:shortU', function (req,res){
-  let longU = urlDatabase[req.params.shortU]
+  let longU = urlDatabase[req.params.shortU].long;
+  console.log(urlDatabase)
+  console.log(req.params.shortU);
+  console.log(longU)
   res.redirect(longU);
 })
 
@@ -103,7 +136,7 @@ app.get('/urls/:id', function(req,res){
 //Shows individual URL page
 app.post('/urls/:id', function(req,res){
   let updatedURL = (req.body.updatedURL);
-  urlDatabase[req.params.id] = updatedURL;
+  urlDatabase[req.params.id].long = updatedURL;
   res.redirect('/urls');
 })
 
@@ -118,11 +151,9 @@ app.post('/login', function(req,res){
   let userEmail = req.body.email;
   let userPassword = req.body.password;
 
-  console.log(`Email: ${userEmail} Password: ${userPassword}`);
-
   for (let i in users) {
     if (users[i].email === userEmail){
-      if (users[i].password === userPassword) {
+      if (bcrypt.compareSync(userPassword, users[i].password)) {
         res.cookie('user_id', users[i].id)
         res.redirect('/urls');
         }
@@ -133,7 +164,6 @@ app.post('/login', function(req,res){
     else {
       res.statusCode = 403;
     }
-    console.log([i]);
   }
 })
 
@@ -165,8 +195,7 @@ app.post('/register', function(req,res){
     users[newID] = {};
     users[newID].id = newID;
     users[newID].email = req.body.email;
-    users[newID].password = req.body.password;
-    console.log(users);
+    users[newID].password = bcrypt.hashSync(req.body.password, 10);
 
     // res.cookie('user_id', newID);
     res.redirect('/urls')
