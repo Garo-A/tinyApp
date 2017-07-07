@@ -26,3 +26,11 @@ In order to shorten a URL, head over to the **Shorten New URL** page. Here, you 
 
 Click in **Index Page** to display the list of URLs that you hava made. You can chose to edit or delete them at your leasure.
 
+# Final Product
+
+!["Screenshot of URLs page - without Login"](tinyApp/docs/:urls - no login.png)
+!["Screenshot of URLs page - logged in"](tinyApp/docs/:urls - logged in.png)
+!["Screenshot of Registration page"](tinyApp/docs/:register page.png)
+!["Screenshot of New Short URL page"](tinyApp/docs/new short url- logged in.png)
+!["Screenshot of URL Edit page"](tinyApp/docs/url edit page.png)
+
