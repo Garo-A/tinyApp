@@ -2,6 +2,7 @@ const express = require ('express');
 const bodyParser = require("body-parser");
 const cookieSession = require ('cookie-session');
 const bcrypt = require ('bcrypt');
+const methodOverride = require ('method-override')
 const app = express();
 
 
@@ -12,6 +13,7 @@ app.use(cookieSession({
   name: 'session',
   keys: ["key1"]
 }))
+app.use(methodOverride('_method'));
 
 //Setting default port.
 const PORT = 8080;
@@ -155,14 +157,14 @@ app.get('/urls/:id', function(req,res){
 })
 
 //Shows individual URL page
-app.post('/urls/:id', function(req,res){
+app.put('/urls/:id', function(req,res){
   let updatedURL = (req.body.updatedURL);
   urlDatabase[req.params.id].long = updatedURL;
   res.redirect('/urls');
 })
 
 //This ONLY executes when there's a POST request sent to this SPECIFIC path.
-app.post('/urls/:id/delete', function(req, res){
+app.delete('/urls/:id/delete', function(req, res){
   delete urlDatabase[req.params.id];
   res.redirect('/urls')
 })
