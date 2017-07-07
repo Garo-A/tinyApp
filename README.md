@@ -14,7 +14,15 @@ You will need to install the following dependencies for the app to run preoperly
 
 # Getting Started
 
-1) Install all dependencies using 'npm install [package] --save'
-2) Run application using 'npm start' command.
+1) Install all dependencies using `npm install [package] --save`
+2) Run application using `npm start` command.
+3) TinyURL requires you to register and log in bofore allowing you to shorten URLs. Head over to the *Register* page and create and account.
+4) Once that's done, go ahead and log in using the *login* tab.
 
+
+# How it Works
+
+In order to shorten a URL, head over to the *Shorten New URL* page. Here, you can enter any long URL that you'd like TinyURL will automatically generate a smaller version of that URL. You will then be take to a page that displays the small URL, the long URL, and your unique user ID. From this page, you will be able to *update* a URL only if you were the one who made it.
+
+Click in *Index Page* to display the list of URLs that you hava made. You can chose to edit or delete them at your leasure.
 

@@ -17,16 +17,16 @@
     <p>
       <li> Full URL = <%= urls[shortURL].long %> </li>
       <li> Short URL = <%= urls[shortURL].short %> </li>
-      <li> Use ID = <%= urls[shortURL].userID %>
+      <li> User ID = <%= urls[shortURL].userID %>
     </p>
 
     <% if (username.id === urls[shortURL].userID) { %>
 
     <form method="POST" action="/urls/<%=shortURL%>">
       <br>
-      Update URL:
+      <p style="text-indent: 40px;"> Update URL:
       <input type="text" name="updatedURL">
-      <input type="submit" value="Update">
+      <input type="submit" value="Update"> </p>
       <br>
       <% } else { %>
         <p style="text-align: center;"> Error: Cannot edit URL that does not belong to you! </p>
