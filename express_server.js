@@ -66,6 +66,7 @@ function URLUser(id) {
 
 
 let errorMessage = "no error";
+let registrationError = "no error";
 
 
 // Express starts hosting the routrs HERE.
@@ -129,7 +130,9 @@ app.get('/u/:shortU', function (req,res){
 //Shows Registration Page
 app.get('/register', function(req,res){
   if (req.session.user_id === undefined){
-    res.render('register_page')
+    res.render('register_page', {
+      registrationError: registrationError
+    })
   } else {
     res.redirect('/urls');
   }
@@ -189,8 +192,6 @@ app.post('/login', function(req,res){
       res.statusCode = 403;
     }
   }
-  if (res.statusCode === 403) {
-  }
 
   if (res.statusCode === 403) {
     errorMessage = "Error";
@@ -215,25 +216,30 @@ app.post('/register', function(req,res){
 //ERROR: Checks to see if any of the fields are left blank.
   if (req.body.email === "" || req.body.password === ""){
     res.statusCode = 400;
-    res.send("Please fill in form")
-    return
   }
 
   //ERROR: Checks to see if email already exists
   for (let i in users) {
     if (users[i].email === req.body.email){
       res.statusCode = 400;
-      res.send("Email already exists");
-      return;
     }
   }
-    users[newID] = {};
-    users[newID].id = newID;
-    users[newID].email = req.body.email;
-    users[newID].password = bcrypt.hashSync(req.body.password, 10);
 
-    // res.cookie('user_id', newID);
-    res.redirect('/urls')
+  if (res.statusCode === 400) {
+    registrationError = "error"
+    res.render('register_page', {
+      registrationError: registrationError
+    })
+
+  } else {
+      users[newID] = {};
+      users[newID].id = newID;
+      users[newID].email = req.body.email;
+      users[newID].password = bcrypt.hashSync(req.body.password, 10);
+
+      registrationError = "no error";
+      res.redirect('/urls')
+  }
 })
 
 

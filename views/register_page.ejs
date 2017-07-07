@@ -18,6 +18,12 @@
 
     <br>
 
+    <% if (registrationError !== "no error") { %>
+
+      <p style="text-indent: 40px;"> Registration Error - Please Retry! </p>
+
+    <% } %>
+
     <form method="POST" action="/register">
       <label>Email Address: </label>
       <input type="email" name="email">
@@ -26,7 +32,6 @@
       <input type="password" name="password">
       <br>
       <input type="submit" value="Submit">
-
     </form>
 
   </body>
