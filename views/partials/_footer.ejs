@@ -1,0 +1,11 @@
+<!-- views/partials/_footer.ejs -->
+<br> <br>
+
+<% if (username !== undefined) { %>
+  <div style="border-style: solid; border-width: 1px; border-radius: 10px; width: 260px; margin:auto;">
+      <form method="POST" action="/logout">
+        <p style="text-align: center; vertical-align: middle;"> Hello <%= username.email %> </p>
+        <p style="text-align: center; vertical-align: middle;"><button class="btn btn-danger">Logout </button> </p>
+      </form>
+  </div>
+    <% } %>

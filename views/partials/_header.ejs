@@ -6,22 +6,22 @@
     </div>
   </div>
 
-<nav>
-<br>
-  <ul class="nav nav-pills">
-    <li role="presentation"><a href='/urls'> Index Page </a></li>
-    <li role="presentation"> <a href='/urls/new'> Shorten New URL </a></li>
-    <li role="presentation"> <a href='/register'> Register </a></li>
-    <% if (username === undefined) { %>
-      <li role="presentation"><a href='/login'> Login </a></li>
-  </ul>
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav">
+          <li role="presentation"><a href='/urls'> Index Page </a></li>
+          <li role="presentation"> <a href='/urls/new'> Shorten New URL </a></li>
+          <li role="presentation"> <a href='/register'> Register </a></li>
+          <% if (username === undefined) { %>
+            <li role="presentation"><a href='/login'> Login </a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
 </nav>
-<p style="text-align: center;"> Please log-in to continue </p>
-    <% } else { %>
-      <form method="POST" action="/logout">
-         <br><br><br> <p style="text-indent: 50px; style=""> Hello <%= username.email %> <p>
-        <p style="text-indent: 50px;"><button class="btn btn-danger">Logout </button> </p>
-      </form>
-    <% } %>
 
-    <br>
+<% if (username === undefined) { %>
+<p style="text-align: center;"> Please log-in to continue </p>
+<% } %>
+

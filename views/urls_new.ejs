@@ -11,11 +11,15 @@
     <% include partials/_header %>
     <br> <br>
     <form action="/urls" method="POST">
-      <label for="longURL">Enter a URL:</label>
+      <label for="longURL" style="text-indent: 40px;">Enter a URL:</label>
       <input id="longURL" type="text" name="longURL" placeholder="http://">
       <input type="submit" value="Submit">
     </form>
     <br>
+
+    <footer>
+      <% include ./partials/_footer %>
+    </footer>
 
   </body>
 </html>
