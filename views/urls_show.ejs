@@ -4,7 +4,9 @@
 
 <html>
 
-  <head> </head>
+  <head>
+  <% include ./partials/_head %>
+  </head>
 
   <body>
 
@@ -26,6 +28,8 @@
       <input type="text" name="updatedURL">
       <input type="submit" value="Update">
       <br>
+      <% } else { %>
+        <p style="text-align: center;"> Error: Cannot edit URL that does not belong to you! </p>
       <% } %>
 
    </body>

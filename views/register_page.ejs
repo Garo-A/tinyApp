@@ -1,17 +1,21 @@
-<!-- views/register.ejd -->
+<!-- views/register.ejs -->
 
 <!DOCTYPE html>
 
 <html>
 
   <head>
-  <title> Register Here </title>
+    <% include ./partials/_head %>
   </head>
 
   <body>
 
-    <header>
-      <h1> Registration Page </h1>
+    <div class="bg-primary">
+      <div class="container">
+        <h1> Registration Page </h1>
+      </div>
+    </div>
+
     <br>
 
     <form method="POST" action="/register">
@@ -22,8 +26,11 @@
       <input type="password" name="password">
       <br>
       <input type="submit" value="Submit">
+
     </form>
+
   </body>
+
 </html>
 
 

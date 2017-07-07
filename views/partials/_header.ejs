@@ -1,33 +1,27 @@
-<!-- views/partials/_header.ejs -->
+    <div class="bg-primary">
+      <div class="container">
 
-<!DOCTYPE html>
+      <h1> TinyURL Generator </h1>
+      <small> A website dedicated to shortening your URLs. </small>
+    </div>
+  </div>
 
-<html>
-  <head> </head>
+<nav>
+<br>
+  <ul class="nav nav-pills">
+    <li role="presentation"><a href='/urls'> Index Page </a></li>
+    <li role="presentation"> <a href='/urls/new'> Shorten New URL </a></li>
+    <li role="presentation"> <a href='/register'> Register </a></li>
+    <% if (username === undefined) { %>
+      <li role="presentation"><a href='/login'> Login </a></li>
+  </ul>
+</nav>
+<p style="text-align: center;"> Please log-in to continue </p>
+    <% } else { %>
+      <form method="POST" action="/logout">
+         <br><br><br> <p style="text-indent: 50px; style=""> Hello <%= username.email %> <p>
+        <p style="text-indent: 50px;"><button class="btn btn-danger">Logout </button> </p>
+      </form>
+    <% } %>
 
-  <body>
-
-    <header>
-      <h2> TinyURL Generator </h2>
-      </header>
-
-      <nav>
-          <li> <a href='/urls'> Index Page </a></li>
-          <li> <a href='/urls/new'> Shorten New URL </a></li>
-          <li> <a href='/register'> Register </a></li>
-          <% if (username === undefined) { %>
-            <li> <a href='/login'> Login </a></li>
-
-          <% } else { %>
-            <form method="POST" action="/logout">
-              <li><button> Logout </button></li>
-            </form>
-            <br>
-            Hello <%= username.email %>
-          <% } %>
-
-
-      </nav>
-
-  </body>
-</html>
+    <br>

@@ -5,13 +5,27 @@
 <html>
 
 <head>
+  <% include ./partials/_head %>
   <title> Login Page </title>
 </head>
 
 <body>
 
-  <h1> Please insert your login credentials </h1>
+<div class="bg-primary">
+  <div class="container">
+    <h1> Please insert your login credentials </h1>
+  </div>
+</div>
   <br>
+
+    <% if (errorMessage !== "no error") { %>
+
+  <p style="text-indent: 40px">  Incorrect login information, please retry. </p>
+
+  <% } %>
+
+  <br>
+
   <form method="POST" action="/login">
     <label> Email Address:</label>
     <input type="email" name="email">
@@ -21,6 +35,9 @@
     <br>
     <input type="submit" value="Submit">
   </form>
+
+  <br>
+
 
   Don't have an account? Register <a href="/register"> here! </a>
 

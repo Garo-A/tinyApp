@@ -53,7 +53,7 @@ function generateRandomString() {
   return text;
 }
 
-//Template Variables. CHECK THIS OUT TO SEE HOW I CAN CALL.
+// This will go throguh urlDatabase and look for the urls containing a specific user ID. It will then return a new object with those URLs.
 function URLUser(id) {
   let all = {};
   for (let url in urlDatabase){
@@ -65,23 +65,27 @@ function URLUser(id) {
 }
 
 
+let errorMessage = "no error";
+
+
 // Express starts hosting the routrs HERE.
 app.get("/", function(req, res) {
-  res.render('home.ejs');
+  if (req.session.user_id === undefined) {
+    res.redirect('/login')
+  } else {
+    res.redirect('/urls');
+  }
+
 })
 
 // Shows what's currently in the urlDatabase
 app.get('/urls', function(req,res){
-  if (req.session.user_id === undefined) {
-    res.redirect("/login");
 
-  } else {
     let user = req.session.user_id;
     res.render('urls_index', {
       urls: URLUser(user),
       username: users[req.session.user_id]
     });
-  }
 })
 
 //Takes whatver user put into urls/new page and loads into urlDatabase. Will then redirect to that short url's page
@@ -111,26 +115,43 @@ app.get('/urls/new', (req, res) => {
 
 //Responsible for taking short URL and redirecting to actual webpage
 app.get('/u/:shortU', function (req,res){
-  let longU = urlDatabase[req.params.shortU].long;
-  res.redirect(longU);
+  for (let urlID in urlDatabase){
+    if (urlID === req.params.shortU){
+      let longU = urlDatabase[req.params.shortU].long;
+      res.redirect(longU);
+    }
+  }
+  res.statusCode = 400;
+  res.send('Error - Shortened URL does not exist, try again');
+
 })
 
 //Shows Registration Page
 app.get('/register', function(req,res){
-  res.render('register_page')
+  if (req.session.user_id === undefined){
+    res.render('register_page')
+  } else {
+    res.redirect('/urls');
+  }
 })
 
 app.get('/login', function(req,res){
-  res.render('login_page')
+  res.render('login_page', {
+    errorMessage: errorMessage
+  })
 })
 
 //Shows long URL of given short URL
 app.get('/urls/:id', function(req,res){
-  res.render('urls_show', {
-    shortURL: req.params.id,
-    urls: urlDatabase,
-    username: users[req.session.user_id]
-  })
+  if (req.session.user_id === undefined){
+    res.redirect('/urls');
+  } else {
+    res.render('urls_show', {
+      shortURL: req.params.id,
+      urls: urlDatabase,
+      username: users[req.session.user_id]
+    })
+  }
 })
 
 //Shows individual URL page
@@ -154,9 +175,12 @@ app.post('/login', function(req,res){
   for (let i in users) {
     if (users[i].email === userEmail){
       if (bcrypt.compareSync(userPassword, users[i].password)) {
-        req.session.user_id = users[i].id
+
+        req.session.user_id = users[i].id;
+        errorMessage = "no error";
         res.redirect('/urls');
         }
+
         else {
           res.statusCode = 403;
         }
@@ -165,11 +189,22 @@ app.post('/login', function(req,res){
       res.statusCode = 403;
     }
   }
+  if (res.statusCode === 403) {
+  }
+
+  if (res.statusCode === 403) {
+    errorMessage = "Error";
+    res.render('login_page', {
+      errorMessage: errorMessage
+    });
+  }
+
 })
 
 //Will logout user and reset uername cookie to underfined
 app.post('/logout', function(req,res){
-  res.clearCookie('user_id');
+  errorMessage = "no error";
+  req.session = null;
   res.redirect('/urls')
 })
 
