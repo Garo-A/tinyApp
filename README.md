@@ -30,7 +30,7 @@ Click in **Index Page** to display the list of URLs that you hava made. You can 
 
 !["Screenshot of URLs page - without Login"](tinyApp/docs/:urls - no login.png)
 !["Screenshot of URLs page - logged in"](tinyApp/docs/:urls - logged in.png)
-!["Screenshot of Registration page"](tinyApp/docs/:register page.png)
+!["Screenshot of Registration page"](https://github.com/Garo-A/tinyApp/blob/master/docs/:register%20page.png)
 !["Screenshot of New Short URL page"](tinyApp/docs/new short url- logged in.png)
 !["Screenshot of URL Edit page"](tinyApp/docs/url edit page.png)
 
