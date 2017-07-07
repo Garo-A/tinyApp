@@ -22,12 +22,14 @@ let urlDatabase = {
   "b2xVn2": {
     short: 'b2xVn2',
     long: "http://www.lighthouselabs.ca",
-    userID: 1
+    userID: 1,
+    count: 0
   },
   "9sm5xK": {
     short: "9sm5xK",
     long: "http://www.google.com",
-    userID: 2
+    userID: 2,
+    count: 0
   }
 };
 
@@ -99,6 +101,7 @@ app.post('/urls', function(req,res){
   urlDatabase[short].short = short;
   urlDatabase[short].long = newURL;
   urlDatabase[short].userID = req.session.user_id;
+  urlDatabase[short].count = 0;
 
   let path = `urls/${short}`
   res.redirect(path);
@@ -121,6 +124,7 @@ app.get('/u/:shortU', function (req,res){
   for (let urlID in urlDatabase){
     if (urlID === req.params.shortU){
       let longU = urlDatabase[req.params.shortU].long;
+      urlDatabase[req.params.shortU].count ++;
       res.redirect(longU);
     }
   }

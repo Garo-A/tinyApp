@@ -14,11 +14,12 @@
       <% include partials/_header %>
     </header>
 
-    <p>
+    <ul>
       <li> Full URL = <%= urls[shortURL].long %> </li>
       <li> Short URL = <%= urls[shortURL].short %> </li>
-      <li> User ID = <%= urls[shortURL].userID %>
-    </p>
+      <li> User ID = <%= urls[shortURL].userID %> </li>
+      <li> Times Visited = <%= urls[shortURL].count %> </li>
+    </ul>
 
     <% if (username.id === urls[shortURL].userID) { %>
 
