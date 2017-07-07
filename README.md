@@ -11,6 +11,7 @@ You will need to install the following dependencies for the app to run preoperly
 - bcrypt
 - cookie-session
 - body-parser
+- method-override
 
 # Getting Started
 
