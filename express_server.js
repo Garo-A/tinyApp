@@ -24,13 +24,13 @@ let urlDatabase = {
     short: 'b2xVn2',
     long: "http://www.lighthouselabs.ca",
     userID: 1,
-    count: 0
+    count: 0,
   },
   "9sm5xK": {
     short: "9sm5xK",
     long: "http://www.google.com",
     userID: 2,
-    count: 0
+    count: 0,
   }
 };
 
@@ -72,6 +72,7 @@ function URLUser(id) {
 
 let errorMessage = "no error";
 let registrationError = "no error";
+let urlError = "no error";
 
 // Home - Redirects to URLs Index if there is a user logged in, if not goes to Login page.
 app.get("/", function(req, res) {
@@ -88,8 +89,10 @@ app.get('/urls', function(req,res){
     let user = req.session.user_id;
     res.render('urls_index', {
       urls: URLUser(user),
-      username: users[req.session.user_id]
+      username: users[req.session.user_id],
+      urlError: urlError
     });
+  urlError = "no error";
 });
 
 //Adds a new, short URL to database with ID of user that created it.
@@ -124,12 +127,18 @@ app.get('/u/:shortU', function (req,res){
     if (urlID === req.params.shortU){
       let longU = urlDatabase[req.params.shortU].long;
       urlDatabase[req.params.shortU].count ++;
+      urlError = "no error";
       res.redirect(longU);
     }
   }
   res.statusCode = 400;
-  res.send('Error - Shortened URL does not exist, try again');
-
+  urlError = "error";
+  let user = req.session.user_id;
+  res.render('urls_index', {
+    urls: URLUser(user),
+    username: users[req.session.user_id],
+    urlError: urlError
+  })
 })
 
 //Shows Registration Page
@@ -157,7 +166,8 @@ app.get('/urls/:id', function(req,res){
     res.render('urls_show', {
       shortURL: req.params.id,
       urls: urlDatabase,
-      username: users[req.session.user_id]
+      username: users[req.session.user_id],
+      urlError: urlError
     });
   };
 });

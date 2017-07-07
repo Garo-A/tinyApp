@@ -15,6 +15,11 @@
       <% include partials/_header %>
     </header>
 
+    <% if (urlError !== "no error") { %>
+      <p style="text-align: center;"> URL does not exist, try again </p>
+    <% } %>
+
+
     <ul>
         <% for (let urlkey in urls) { %>
           <li> <a href="/urls/<%=urlkey%>"><%= urlkey %></a> : <%= urls[urlkey].long %> </li>
