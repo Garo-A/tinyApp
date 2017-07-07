@@ -15,14 +15,10 @@
       <% include partials/_header %>
     </header>
 
-    <% if (urlError !== "no error") { %>
-      <p style="text-align: center;"> URL does not exist, try again </p>
-    <% } %>
-
 
     <ul>
         <% for (let urlkey in urls) { %>
-          <li> <a href="/urls/<%=urlkey%>"><%= urlkey %></a> : <%= urls[urlkey].long %> </li>
+          <li> <%= urlkey %> : <%= urls[urlkey].long %> </li>
             <form method="POST" action="urls/<%=urlkey%>/delete?_method=DELETE">
               <button class="btn btn-danger"> Delete </button>  <a href='/urls/<%=urlkey%>' class="btn btn-primary"> Edit URL </a></button>
             </form>

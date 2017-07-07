@@ -18,7 +18,7 @@
       <li> Full URL = <%= urls[shortURL].long %> </li>
       <li> Short URL = <%= urls[shortURL].short %> </li>
       <li> User ID = <%= urls[shortURL].userID %> </li>
-      <li> Times Visited = <%= urls[shortURL].count %> </li>
+      <li> Number of Visits = <%= urls[shortURL].count %> </li>
     </ul>
 
     <% if (username.id === urls[shortURL].userID) { %>
@@ -33,9 +33,6 @@
         <p style="text-align: center;"> Error: Cannot edit URL that does not belong to you! </p>
       <% } %>
 
-    <footer>
-        <% include ./partials/_footer %>
-    </footer>
 
    </body>
 </html>

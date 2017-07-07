@@ -27,6 +27,11 @@ In order to shorten a URL, head over to the **Shorten New URL** page. Here, you 
 
 Click in **Index Page** to display the list of URLs that you hava made. You can chose to edit or delete them at your leasure.
 
+# Known Errors
+
+- If there is an error logging in, message will appear and will not dissapear from login page unless there is a successful login.
+- If there is a mistake when typing a shortened URL when visiting a website, app will redirect to URL index page and will show error message. Message will dissapear only if page is refreshed twice.
+
 # Final Product
 
 !["Screenshot of URLs page - without Login"](https://github.com/Garo-A/tinyApp/blob/master/docs/:urls%20-%20no%20login.png)
