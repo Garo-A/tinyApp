@@ -24,13 +24,15 @@ let urlDatabase = {
     short: 'b2xVn2',
     long: "http://www.lighthouselabs.ca",
     userID: 1,
-    count: 0
+    count: 0,
+    visitors: []
   },
   "9sm5xK": {
     short: "9sm5xK",
     long: "http://www.google.com",
     userID: 2,
-    count: 0
+    count: 0,
+    visitors: []
   }
 };
 
@@ -100,6 +102,7 @@ app.post('/urls', function(req,res){
   urlDatabase[short].long = newURL;
   urlDatabase[short].userID = req.session.user_id;
   urlDatabase[short].count = 0;
+  urlDatabase[short].visitors = []
 
   let path = `urls/${short}`;
   res.redirect(path);
@@ -122,6 +125,11 @@ app.get('/u/:shortU', function (req,res){
   for (let urlID in urlDatabase){
     if (urlID === req.params.shortU){
       let longU = urlDatabase[req.params.shortU].long;
+      if (req.session.user_id !== undefined) {
+        urlDatabase[req.params.shortU].visitors.push(req.session.user_id);
+      } else {
+        urlDatabase[req.params.shortU].visitors.push(generateRandomString());
+      }
       urlDatabase[req.params.shortU].count ++;
       res.redirect(longU);
     }

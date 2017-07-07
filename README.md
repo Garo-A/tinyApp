@@ -27,10 +27,16 @@ In order to shorten a URL, head over to the **Shorten New URL** page. Here, you 
 
 Click in **Index Page** to display the list of URLs that you hava made. You can chose to edit or delete them at your leasure.
 
+# Added Stretches
+
+- Able to integrate method.override package
+- App will count how many times each short url is visited.
+- App will be able to list the inidividul userIDs that visit the website. It will generate one for someone who is not logged in.
+
 # Known Errors
 
 - If there is an error logging in, message will appear and will not dissapear from login page unless there is a successful login.
-- If there is a mistake when typing a shortened URL when visiting a website, app will redirect to URL index page and will show error message. Message will dissapear only if page is refreshed twice.
+- If there is a mistake when typing a shortened URL when visiting a website, app will show HTML with error message. Please press back on browser to get back into app.
 
 # Final Product
 
